@@ -10,7 +10,13 @@
     >
 
     <title>Henrik Hedlin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+            <link
+                    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+                            rel="stylesheet"
+                                >
     <link
         rel="stylesheet"
         href="style.css"
@@ -33,52 +39,57 @@
 
     <header class="site-header">
 
-        <nav
-            class="site-nav"
-            aria-label="Primary navigation"
-        >
+        <nav class="site-nav">
 
-            <a href="#home">
-                [ HOME ]
-            </a>
+            <div class="section-nav">
 
-            <span class="separator">::</span>
+                <div class="section-nav-links">
 
-            <a href="#projects">
-                [ PROJECTS ]
-            </a>
+                    <a href="#home">[ HOME ]</a>
+                    <a href="#projects">[ PROJECTS ]</a>
+                    <a href="#cv">[ CV ]</a>
+                    <a href="#contact">[ CONTACT ]</a>
 
-            <span class="separator">::</span>
+                </div>
 
-            <a href="#cv">
-                [ CV ]
-            </a>
 
-            <span class="separator">::</span>
+                <div class="nav-scale" aria-hidden="true">
 
-            <a href="#contact">
-                [ CONTACT ]
-            </a>
+                    <div class="nav-minor-markers"></div>
 
-            <span class="separator">::</span>
+                    <div class="nav-section-markers"></div>
 
-            <a
-                href="https://github.com/Henke-N"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                [ GITHUB ]
-            </a>
+                    <div class="nav-pointer"></div>
 
-            <span class="separator">::</span>
+                </div>
 
-            <a
-                href="https://www.linkedin.com/in/henrik-hedlin-206ba3263/"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                [ LINKEDIN ]
-            </a>
+            </div>
+
+
+            <span class="nav-separator">
+                //
+            </span>
+
+
+            <div class="external-nav">
+
+                <a
+                    href="https://github.com/Henke-N"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    [ GITHUB ]
+                </a>
+
+                <a
+                    href="https://www.linkedin.com/in/henrik-hedlin-206ba3263/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    [ LINKEDIN ]
+                </a>
+
+            </div>
 
         </nav>
 
@@ -119,7 +130,25 @@
                     <h1 class="hero-title">
                         Henrik Hedlin
                     </h1>
+                    <figure class="project-figure">
 
+                        <img
+                            src="images/point-cloud.png"
+                            alt="DBSCAN clustered point cloud"
+                        >
+
+                        <figcaption>
+
+                            <span class="figure-number">
+                                FIG. 01
+                            </span>
+
+                            DBSCAN clustering of above-ground
+                            point-cloud data.
+
+                        </figcaption>
+
+                    </figure>    
 
                     <p class="lead">
                         Engineer with a background in
@@ -333,19 +362,13 @@
 
                 <header class="section-header">
 
-                    <span class="meta">
-                        SELECTED WORK
+                    <span class="plate-label">
+                        PLATE 02 / SELECTED WORK
                     </span>
 
                     <h2 class="section-title">
                         PROJECTS
                     </h2>
-
-                    <p class="section-intro">
-                        A few projects that represent the kind of work
-                        I enjoy most: modelling, experimentation,
-                        data analysis and technical problem solving.
-                    </p>
 
                 </header>
 
@@ -945,92 +968,213 @@
          ====================================================== -->
 
     <script src="background.js"></script>
-
+    <script src="navigation.js"></script>
 
     <!-- Highlight current section in navigation -->
     <script>
 
+        const sectionLinks =
+            Array.from(
+                document.querySelectorAll(
+                    '.section-nav-links a[href^="#"]'
+                )
+            );
+
+
         const sections =
-            document.querySelectorAll(
-                "main section"
+            sectionLinks.map(
+                link =>
+                    document.querySelector(
+                        link.getAttribute("href")
+                    )
             );
 
 
-        const navLinks =
-            document.querySelectorAll(
-                'nav a[href^="#"]'
+        const sectionNav =
+            document.querySelector(
+                ".section-nav"
             );
 
 
-        const observer =
-            new IntersectionObserver(
-
-                (entries) => {
-
-                    entries.forEach(
-                        (entry) => {
-
-                            if (
-                                entry.isIntersecting
-                            ) {
-
-                                navLinks.forEach(
-                                    (link) => {
-
-                                        link.classList.remove(
-                                            "active"
-                                        );
-
-                                    }
-                                );
-
-
-                                const activeLink =
-                                    document.querySelector(
-                                        `nav a[href="#${entry.target.id}"]`
-                                    );
-
-
-                                if (
-                                    activeLink
-                                ) {
-
-                                    activeLink.classList.add(
-                                        "active"
-                                    );
-
-                                }
-                            }
-
-                        }
-                    );
-
-                },
-
-                /*
-                    A narrow zone around the middle of
-                    the screen decides which section is active.
-                */
-
-                {
-                    threshold: 0,
-
-                    rootMargin:
-                        "-40% 0px -40% 0px"
-                }
-
+        const pointer =
+            document.querySelector(
+                ".nav-pointer"
             );
 
 
-        sections.forEach(
-            (section) => {
+        function getLinkCentre(link) {
 
-                observer.observe(
-                    section
+            const linkRect =
+                link.getBoundingClientRect();
+
+            const navRect =
+                sectionNav.getBoundingClientRect();
+
+
+            return (
+                linkRect.left -
+                navRect.left +
+                linkRect.width / 2
+            );
+        }
+
+
+        function updateNavigation() {
+
+            /*
+                Use a point slightly above the vertical
+                centre of the screen as our "observation line".
+            */
+
+            const observationPosition =
+                window.scrollY +
+                window.innerHeight * 0.42;
+
+
+            const sectionPositions =
+                sections.map(
+                    section =>
+                        section.offsetTop
                 );
 
+
+            let currentIndex = 0;
+
+
+            /*
+                Find which two sections we are currently between.
+            */
+
+            for (
+                let i = 0;
+                i < sectionPositions.length;
+                i++
+            ) {
+
+                if (
+                    observationPosition >=
+                    sectionPositions[i]
+                ) {
+                    currentIndex = i;
+                }
+            }
+
+
+            const nextIndex =
+                Math.min(
+                    currentIndex + 1,
+                    sections.length - 1
+                );
+
+
+            const currentPosition =
+                sectionPositions[
+                    currentIndex
+                ];
+
+
+            const nextPosition =
+                sectionPositions[
+                    nextIndex
+                ];
+
+
+            let progress = 0;
+
+
+            if (
+                nextPosition >
+                currentPosition
+            ) {
+
+                progress =
+                    (
+                        observationPosition -
+                        currentPosition
+                    ) /
+                    (
+                        nextPosition -
+                        currentPosition
+                    );
+
+
+                progress =
+                    Math.max(
+                        0,
+                        Math.min(
+                            1,
+                            progress
+                        )
+                    );
+            }
+
+
+            const startX =
+                getLinkCentre(
+                    sectionLinks[
+                        currentIndex
+                    ]
+                );
+
+
+            const endX =
+                getLinkCentre(
+                    sectionLinks[
+                        nextIndex
+                    ]
+                );
+
+
+            const pointerX =
+                startX +
+                (
+                    endX -
+                    startX
+                ) *
+                progress;
+
+
+            pointer.style.left =
+                `${pointerX}px`;
+
+
+            /*
+                Active text state
+            */
+
+            sectionLinks.forEach(
+                (
+                    link,
+                    index
+                ) => {
+
+                    link.classList.toggle(
+                        "active",
+                        index ===
+                        currentIndex
+                    );
+
+                }
+            );
+        }
+
+
+        window.addEventListener(
+            "scroll",
+            updateNavigation,
+            {
+                passive: true
             }
         );
+
+
+        window.addEventListener(
+            "resize",
+            updateNavigation
+        );
+
+
+        updateNavigation();
 
     </script>
 

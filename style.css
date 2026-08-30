@@ -1,11 +1,54 @@
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: #030508;
-    color: white;
-    font-family: Arial, sans-serif;
+:root {
+    --bg: #05070a;
+
+    --text: #e8edf3;
+    --text-soft: #c2ccd8;
+    --text-muted: #8f9ba9;
+    --text-faint: #596675;
+
+    --accent: #b9d4ee;
+    --accent-bright: #e6f2ff;
+
+    --line: rgba(200, 220, 240, 0.13);
+    --line-strong: rgba(200, 220, 240, 0.32);
+
+    --panel: rgba(8, 12, 18, 0.48);
+    --panel-hover: rgba(10, 15, 22, 0.68);
 }
 
+
+html,
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.site-nav,
+.meta,
+.eyebrow,
+.plate-label,
+.tag,
+.project-link,
+.project-figure figcaption,
+.site-footer {
+    font-family: "IBM Plex Mono", monospace;
+}
+body::before {
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    opacity: 0.035;
+
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+}
 #sky {
     position: fixed;
     top: 0;
@@ -89,34 +132,7 @@ nav a.active {
     color: white;
 }
 
-nav a.active::after {
-    content: "";
 
-    position: absolute;
-
-    left: 12.5%;
-    bottom: -8px;
-
-    width: 75%;
-    height: 2px;
-
-    background: white;
-
-    clip-path: polygon(
-        0% 50%,
-        20% 25%,
-        50% 0%,
-        80% 25%,
-        100% 50%,
-        80% 75%,
-        50% 100%,
-        20% 75%
-    );
-
-    box-shadow:
-        0 0 4px rgba(255, 255, 255, 0.7),
-        0 0 8px rgba(200, 220, 255, 0.35);
-}
 
 
 
@@ -266,31 +282,30 @@ footer {
 .tag {
     display: inline-block;
 
-    padding:
-        5px 9px;
-
     margin:
-        3px;
+        4px 7px
+        4px 0;
 
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-size:
-        0.78rem;
-
-    color:
-        rgba(220, 230, 245, 0.75);
-
-    background:
-        rgba(255, 255, 255, 0.035);
+    padding:
+        4px 7px;
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.12);
+        rgba(200, 220, 240, 0.13);
 
-    border-radius:
-        4px;
+    border-radius: 0;
+
+    background:
+        rgba(255, 255, 255, 0.015);
+
+    color:
+        var(--text-muted);
+
+    font-size: 0.72rem;
+
+    letter-spacing: 0.07em;
+
+    text-transform: uppercase;
 }
 
 
@@ -521,19 +536,41 @@ footer {
 }
 
 
-.about-list li::before {
-    content: ">";
+.about-list li {
+    position: relative;
 
-    margin-right: 10px;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    color:
-        rgba(190, 210, 235, 0.38);
+    padding-left: 18px;
 }
 
+
+.about-list li::before {
+    content: "";
+
+    position: absolute;
+
+    left: 1px;
+    top: 0.83em;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: var(--accent);
+
+    box-shadow:
+        0 0 4px
+        rgba(185, 212, 238, 0.35);
+}
+.about-list li:nth-child(2n)::before {
+    width: 3px;
+    height: 3px;
+}
+
+.about-list li:nth-child(3n)::before {
+    width: 2px;
+    height: 2px;
+}
 
 
 /* ============================================================
@@ -708,4 +745,464 @@ main a:hover {
 
     transform:
         translateX(3px);
+}
+
+.site-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 28px;
+
+    font-family:
+        "Courier New",
+        monospace;
+}
+
+
+.section-nav {
+    position: relative;
+
+    padding-bottom: 15px;
+}
+
+
+.section-nav-links {
+    display: flex;
+    align-items: center;
+
+    gap: 30px;
+}
+
+
+.external-nav a,
+a[target="_blank"] {
+    color: var(--text-muted);
+}
+
+.external-nav a:hover,
+a[target="_blank"]:hover {
+    color: var(--accent-bright);
+}
+
+
+.nav-separator {
+    color:
+        rgba(255, 255, 255, 0.20);
+
+    user-select: none;
+}
+
+
+/* ========================================
+   CELESTIAL NAVIGATION SCALE
+   ======================================== */
+
+/* ============================================================
+   PAGE POSITION SCALE
+   ============================================================ */
+
+.nav-scale {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 2px;
+
+    height: 10px;
+
+    border-bottom:
+        1px solid
+        rgba(210, 225, 245, 0.18);
+}
+
+
+/* Small regular divisions */
+
+.nav-scale::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 5px;
+
+    background:
+        repeating-linear-gradient(
+            to right,
+
+            transparent 0,
+            transparent 19px,
+
+            rgba(210, 225, 245, 0.12) 19px,
+            rgba(210, 225, 245, 0.12) 20px
+        );
+}
+
+
+/* Actual page-section markers */
+
+.nav-section-marker {
+    position: absolute;
+
+    bottom: -1px;
+
+    width: 1px;
+    height: 9px;
+
+    background:
+        rgba(220, 232, 248, 0.45);
+
+    transform:
+        translateX(-50%);
+}
+
+
+/* Moving observation indicator */
+
+.nav-pointer {
+    position: absolute;
+
+    left: 0;
+    bottom: -5px;
+
+    width: 7px;
+    height: 7px;
+
+    transform:
+        translateX(-50%)
+        rotate(45deg);
+
+    
+    background: var(--accent-bright);
+
+    box-shadow:
+        0 0 4px rgba(230, 242, 255, 0.8),
+        0 0 10px rgba(185, 212, 238, 0.45);
+    
+    transition:
+        left 0.05s linear;
+}
+
+.plate-label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.18em;
+
+    color:
+        rgba(185, 205, 230, 0.38);
+}
+
+.project-card {
+    position: relative;
+
+    padding: 28px;
+
+    background:
+        rgba(8, 12, 18, 0.48);
+
+    /*
+        Eight little gradients create
+        four L-shaped corner markers.
+    */
+
+    background-image:
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        ),
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        ),
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        ),
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        ),
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        ),
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        ),
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        ),
+
+        linear-gradient(
+            rgba(210, 225, 245, 0.38),
+            rgba(210, 225, 245, 0.38)
+        );
+
+
+    background-size:
+
+        24px 1px,
+        1px 24px,
+
+        24px 1px,
+        1px 24px,
+
+        24px 1px,
+        1px 24px,
+
+        24px 1px,
+        1px 24px;
+
+
+    background-position:
+
+        left top,
+        left top,
+
+        right top,
+        right top,
+
+        left bottom,
+        left bottom,
+
+        right bottom,
+        right bottom;
+
+
+    background-repeat:
+        no-repeat;
+
+
+    transition:
+        background-color 0.2s ease;
+}
+
+
+.project-card:hover {
+    background-color:
+        rgba(10, 15, 22, 0.68);
+}
+
+
+.project-figure {
+    margin: 0;
+}
+
+
+.project-figure img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+
+.project-figure figcaption {
+    margin-top: 9px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 0.72rem;
+
+    line-height: 1.5;
+
+    color:
+        rgba(190, 205, 225, 0.45);
+}
+
+
+.figure-number {
+    margin-right: 10px;
+
+    color:
+        rgba(220, 232, 245, 0.70);
+}
+
+.project-card,
+.cv-entry,
+.course-entry {
+    position: relative;
+
+    border: none;
+    border-radius: 0;
+
+    background-color: var(--panel);
+
+    background-image:
+        linear-gradient(var(--line-strong), var(--line-strong)),
+        linear-gradient(var(--line-strong), var(--line-strong)),
+        linear-gradient(var(--line-strong), var(--line-strong)),
+        linear-gradient(var(--line-strong), var(--line-strong)),
+        linear-gradient(var(--line-strong), var(--line-strong)),
+        linear-gradient(var(--line-strong), var(--line-strong)),
+        linear-gradient(var(--line-strong), var(--line-strong)),
+        linear-gradient(var(--line-strong), var(--line-strong));
+
+    background-size:
+        26px 1px,
+        1px 26px,
+
+        26px 1px,
+        1px 26px,
+
+        26px 1px,
+        1px 26px,
+
+        26px 1px,
+        1px 26px;
+
+    background-position:
+        left top,
+        left top,
+
+        right top,
+        right top,
+
+        left bottom,
+        left bottom,
+
+        right bottom,
+        right bottom;
+
+    background-repeat: no-repeat;
+}
+.project-card {
+    padding: 30px;
+}
+.cv-entry,
+.course-entry {
+    padding: 22px;
+
+    --line-strong:
+        rgba(200, 220, 240, 0.20);
+}
+.project-card:hover {
+    background-color: var(--panel-hover);
+}
+.page-section {
+    padding-top: 90px;
+    padding-bottom: 140px;
+}
+
+.section-header {
+    margin-bottom: 55px;
+}
+
+.project-card + .project-card {
+    margin-top: 55px;
+}
+
+.cv-entry {
+    margin-bottom: 32px;
+}
+.project-visual {
+    position: relative;
+
+    overflow: hidden;
+
+    margin-bottom: 24px;
+
+    min-height: 180px;
+
+    background:
+        rgba(255, 255, 255, 0.018);
+}
+
+
+/* Central observation crosshair */
+
+.project-visual::before {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 22px;
+    height: 22px;
+
+    transform:
+        translate(-50%, -50%);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to right,
+            transparent 10px,
+            rgba(220, 235, 250, 0.45) 10px,
+            rgba(220, 235, 250, 0.45) 11px,
+            transparent 11px
+        ),
+        linear-gradient(
+            to bottom,
+            transparent 10px,
+            rgba(220, 235, 250, 0.45) 10px,
+            rgba(220, 235, 250, 0.45) 11px,
+            transparent 11px
+        );
+
+    transition:
+        opacity 0.25s ease;
+}
+
+
+.project-card:hover .project-visual::before {
+    opacity: 1;
+}
+.project-figure {
+    margin: 0 0 28px;
+}
+
+
+.project-figure img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+
+.project-figure figcaption {
+    margin-top: 9px;
+
+    font-size: 0.72rem;
+    line-height: 1.55;
+
+    letter-spacing: 0.03em;
+
+    color: var(--text-faint);
+}
+
+
+.figure-number {
+    margin-right: 12px;
+
+    color: var(--accent);
 }

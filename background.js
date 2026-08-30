@@ -1741,9 +1741,205 @@ function animate(time) {
     requestAnimationFrame(
         animate
     );
+
+    
+}
+//----------------------
+    
+const sectionLinks = Array.from(
+    document.querySelectorAll('.section-nav-links a[href^="#"]')
+);
+
+const sections = sectionLinks.map((link) =>
+    document.querySelector(link.getAttribute("href"))
+);
+
+const pointer = document.querySelector(".nav-pointer");
+const markerContainer = document.querySelector(".nav-section-markers");
+const minorMarkerContainer = document.querySelector(".nav-minor-markers");
+
+let sectionTriggerPositions = [];
+
+
+/* ============================================================
+   BUILD / RECALCULATE NAVIGATION SCALE
+   ============================================================ */
+
+function calculateNavigationScale() {
+
+    if (
+        !pointer ||
+        !markerContainer ||
+        !minorMarkerContainer ||
+        sections.length === 0
+    ) {
+        return;
+    }
+
+    const maxScroll =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+    const observationOffset =
+        window.innerHeight * 0.42;
+
+
+    /* --------------------------------------------------------
+       Calculate section positions
+       -------------------------------------------------------- */
+
+    sectionTriggerPositions = sections.map((section) => {
+
+        const targetScroll =
+            section.offsetTop -
+            observationOffset;
+
+        return Math.max(
+            0,
+            Math.min(maxScroll, targetScroll)
+        );
+
+    });
+
+
+    /* --------------------------------------------------------
+       Minor ticks
+       One tick every 5%
+       -------------------------------------------------------- */
+
+    minorMarkerContainer.innerHTML = "";
+
+    for (let i = 0; i <= 20; i++) {
+
+        const marker =
+            document.createElement("span");
+
+        marker.className =
+            "nav-minor-marker";
+
+        marker.style.left =
+            `${i * 5}%`;
+
+        minorMarkerContainer.appendChild(marker);
+
+    }
+
+
+    /* --------------------------------------------------------
+       Major section ticks
+       -------------------------------------------------------- */
+
+    markerContainer.innerHTML = "";
+
+    sectionTriggerPositions.forEach((position) => {
+
+        const marker =
+            document.createElement("span");
+
+        marker.className =
+            "nav-section-marker";
+
+        const percentage =
+            maxScroll > 0
+                ? position / maxScroll
+                : 0;
+
+        marker.style.left =
+            `${percentage * 100}%`;
+
+        markerContainer.appendChild(marker);
+
+    });
+
+
+    updateNavigation();
 }
 
 
+/* ============================================================
+   UPDATE POINTER WHILE SCROLLING
+   ============================================================ */
+
+function updateNavigation() {
+
+    if (!pointer) {
+        return;
+    }
+
+    const maxScroll =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+    const scrollPosition =
+        Math.max(
+            0,
+            Math.min(maxScroll, window.scrollY)
+        );
+
+    const progress =
+        maxScroll > 0
+            ? scrollPosition / maxScroll
+            : 0;
+
+
+    /* Move pointer */
+
+    pointer.style.left =
+        `${progress * 100}%`;
+
+
+    /* Work out which section is active */
+
+    let currentIndex = 0;
+
+    sectionTriggerPositions.forEach(
+        (position, index) => {
+
+            if (scrollPosition >= position) {
+                currentIndex = index;
+            }
+
+        }
+    );
+
+
+    sectionLinks.forEach(
+        (link, index) => {
+
+            link.classList.toggle(
+                "active",
+                index === currentIndex
+            );
+
+        }
+    );
+}
+
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+
+window.addEventListener(
+    "scroll",
+    updateNavigation,
+    { passive: true }
+);
+
+window.addEventListener(
+    "resize",
+    calculateNavigationScale
+);
+
+window.addEventListener(
+    "load",
+    calculateNavigationScale
+);
+
+
+/* Initial calculation */
+
+calculateNavigationScale();
 // ============================================================
 // START
 // ============================================================
