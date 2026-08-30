@@ -1,0 +1,563 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #030508;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+#sky {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 0;
+
+    pointer-events: none;
+}
+
+/* Put future website content above the stars */
+.site-header {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    padding: 18px 40px;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+
+    background:
+        rgba(3, 5, 8, 0.72);
+
+    backdrop-filter:
+        blur(10px);
+}
+
+
+nav {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 16px;
+
+    font-family: "Courier New", monospace;
+}
+
+
+nav a {
+    position: relative;
+    display: inline-block;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    text-decoration: none;
+    letter-spacing: 2px;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease,
+        text-shadow 0.2s ease;
+}
+
+
+nav a:hover {
+    color: white;
+
+    transform: scale(1.08);
+
+    text-shadow:
+        0 0 8px rgba(200, 220, 255, 0.5);
+}
+
+
+.separator {
+    color: rgba(255, 255, 255, 0.65);
+
+    user-select: none;
+}
+
+nav a.active {
+    color: white;
+}
+
+nav a.active::after {
+    content: "";
+
+    position: absolute;
+
+    left: 12.5%;
+    bottom: -8px;
+
+    width: 75%;
+    height: 2px;
+
+    background: white;
+
+    clip-path: polygon(
+        0% 50%,
+        20% 25%,
+        50% 0%,
+        80% 25%,
+        100% 50%,
+        80% 75%,
+        50% 100%,
+        20% 75%
+    );
+
+    box-shadow:
+        0 0 4px rgba(255, 255, 255, 0.7),
+        0 0 8px rgba(200, 220, 255, 0.35);
+}
+
+
+
+
+
+
+/* Main content */
+main {
+    position: relative;
+
+    z-index: 1;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 80px 30px;
+}
+
+
+section {
+    margin-bottom: 150px;
+}
+
+
+h1 {
+    font-size: 4rem;
+
+    margin-bottom: 15px;
+}
+
+
+h2 {
+    font-size: 2rem;
+}
+
+
+p {
+    max-width: 700px;
+
+    color: rgba(255, 255, 255, 0.75);
+
+    line-height: 1.6;
+}
+footer {
+    position: relative;
+    z-index: 1;
+}
+/* ============================================================
+   TEXT UTILITIES
+   ============================================================ */
+
+
+/* Main large intro text */
+.lead {
+    font-size: 1.25rem;
+    line-height: 1.7;
+
+    color: rgba(255, 255, 255, 0.82);
+
+    max-width: 700px;
+}
+
+
+/* Less important text */
+.muted {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* Slightly brighter important text */
+.strong {
+    color: rgba(255, 255, 255, 0.95);
+
+    font-weight: 600;
+}
+
+
+/* Blue-white accent */
+.accent {
+    color: rgb(205, 225, 255);
+}
+
+
+/* Very subtle glowing text */
+.glow {
+    color: white;
+
+    text-shadow:
+        0 0 5px rgba(255, 255, 255, 0.35),
+        0 0 10px rgba(190, 215, 255, 0.15);
+}
+
+
+/* Terminal / technical text */
+.mono {
+    font-family:
+        "Courier New",
+        monospace;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* Small uppercase technical label */
+.eyebrow {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    color: rgba(190, 210, 235, 0.6);
+}
+
+
+/* Highlighted inline text */
+.highlight {
+    padding:
+        2px 6px;
+
+    background:
+        rgba(200, 220, 255, 0.08);
+
+    border:
+        1px solid
+        rgba(200, 220, 255, 0.12);
+
+    border-radius:
+        3px;
+
+    color:
+        rgba(230, 240, 255, 0.95);
+}
+
+
+/* Small tag / skill label */
+.tag {
+    display: inline-block;
+
+    padding:
+        5px 9px;
+
+    margin:
+        3px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.78rem;
+
+    color:
+        rgba(220, 230, 245, 0.75);
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+
+    border-radius:
+        4px;
+}
+
+
+/* Decorative section heading */
+.section-title {
+    position: relative;
+
+    display: inline-block;
+
+    margin-bottom:
+        30px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        1.8rem;
+
+    letter-spacing:
+        0.08em;
+
+    color:
+        rgba(255, 255, 255, 0.95);
+}
+
+
+/* Small decorative marker before headings */
+.section-title::before {
+    content: ">";
+
+    margin-right:
+        10px;
+
+    color:
+        rgba(180, 205, 235, 0.5);
+}
+
+
+/* Slightly separated body text */
+.text-block {
+    max-width:
+        720px;
+
+    line-height:
+        1.75;
+
+    color:
+        rgba(255, 255, 255, 0.72);
+}
+
+
+/* Quote / statement block */
+.statement {
+    max-width:
+        700px;
+
+    padding-left:
+        20px;
+
+    border-left:
+        2px solid
+        rgba(210, 225, 255, 0.35);
+
+    font-size:
+        1.15rem;
+
+    line-height:
+        1.7;
+
+    color:
+        rgba(255, 255, 255, 0.82);
+}
+
+
+/* Tiny technical metadata */
+.meta {
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size:
+        0.75rem;
+
+    letter-spacing:
+        0.08em;
+
+    color:
+        rgba(255, 255, 255, 0.38);
+}
+
+/* ============================================================
+   HOME / HERO
+   ============================================================ */
+
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
+
+.hero-main {
+    max-width: 760px;
+}
+
+
+.hero-title {
+    margin:
+        12px 0
+        24px;
+
+    font-size:
+        clamp(
+            3rem,
+            7vw,
+            6rem
+        );
+
+    line-height: 0.95;
+
+    letter-spacing: -0.035em;
+}
+
+
+.hero-description {
+    margin-top: 25px;
+}
+
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px;
+
+    margin-top: 40px;
+}
+
+
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+
+.about-block {
+    margin-top: 170px;
+
+    padding-top: 55px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+}
+
+
+.about-intro {
+    max-width: 720px;
+}
+
+
+.about-title {
+    margin:
+        8px 0
+        30px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 1.8rem;
+
+    letter-spacing: 0.08em;
+
+    color:
+        rgba(255, 255, 255, 0.95);
+}
+
+
+.about-intro .text-block {
+    margin-bottom: 22px;
+}
+
+
+
+/* ============================================================
+   QUICK PROFILE
+   ============================================================ */
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 45px;
+
+    margin-top: 65px;
+}
+
+
+.about-item {
+    padding-top: 18px;
+
+    border-top:
+        1px solid
+        rgba(255, 255, 255, 0.12);
+}
+
+
+.about-list {
+    margin:
+        14px 0
+        0;
+
+    padding: 0;
+
+    list-style: none;
+
+    color:
+        rgba(255, 255, 255, 0.62);
+
+    line-height: 1.9;
+}
+
+
+.about-list li::before {
+    content: ">";
+
+    margin-right: 10px;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    color:
+        rgba(190, 210, 235, 0.38);
+}
+
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 750px) {
+
+    .hero {
+        min-height: auto;
+
+        padding-top: 110px;
+    }
+
+
+    .about-block {
+        margin-top: 110px;
+    }
+
+
+    .about-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+}
