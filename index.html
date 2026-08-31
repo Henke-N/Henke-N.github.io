@@ -133,8 +133,9 @@
                     <figure class="project-figure">
 
                         <img
-                            src="images/point-cloud.png"
+                            src="Images/Henrik_Hedlin_application_photo_4x5.jpg"
                             alt="DBSCAN clustered point cloud"
+                            style="width: 300px; height: auto;"
                         >
 
                         <figcaption>
@@ -143,8 +144,7 @@
                                 FIG. 01
                             </span>
 
-                            DBSCAN clustering of above-ground
-                            point-cloud data.
+                            Me
 
                         </figcaption>
 
@@ -172,25 +172,7 @@
                         I am usually quite happy.
                     </p>
 
-
-                    <div class="hero-actions">
-
-                        <a
-                            class="action-link primary-action"
-                            href="#projects"
-                        >
-                            [ VIEW PROJECTS ]
-                        </a>
-
-
-                        <a
-                            class="action-link"
-                            href="#cv"
-                        >
-                            [ VIEW CV ]
-                        </a>
-
-                    </div>
+           
 
                 </div>
 
@@ -377,49 +359,200 @@
                 <div class="project-grid">
 
 
-                    <!-- ======================================
-                         PROJECT 1
-                         ====================================== -->
+    <!-- ==================================================
+         PROJECT 01
+         ================================================== -->
 
-                    <article class="project-card">
+    <article class="project-card">
 
-                        <div class="project-visual">
+        <div class="project-content">
 
-                            <!--
-                            Replace later with something like:
-
-                            <img
-                                src="images/cmp-model.png"
-                                alt="CMP modelling results"
-                            >
-                            -->
-
-                            <span class="project-placeholder">
-                                CMP / PROCESS MODELLING
+            <span class="meta">
+                                PRJ-001 / MASTER'S THESIS / PROCESS MODELLING
                             </span>
+
+                            <h3>
+                                CMP Removal Modelling for Recipe Optimisation
+                            </h3>
+
+                            <p class="project-summary">
+                                Built a physics-guided model linking zoned pressures
+                                and spin-up behaviour to local material removal in a
+                                multi-zone CMP process, with the aim of supporting
+                                more systematic recipe development.
+                            </p>
+
+
+                            <div class="project-details">
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        PROBLEM
+                                    </span>
+
+                                    <p>
+                                        Incoming oxide topography meant that material
+                                        could not simply be removed uniformly across
+                                        the wafer. Recipe development therefore
+                                        required control of the radial removal profile.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        WHAT I DID
+                                    </span>
+
+                                    <p>
+                                        Developed the modelling workflow from
+                                        experimental data handling and assumption
+                                        testing through model fitting, constrained
+                                        optimisation, visualisation and validation.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        RESULT
+                                    </span>
+
+                                    <p>
+                                        The model captured the main spatial relationship
+                                        between pressure zones and local removal and
+                                        predicted radial removal shape more reliably
+                                        than absolute removal level.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="tag-list">
+
+                                <span class="tag">Python</span>
+                                <span class="tag">CMP</span>
+                                <span class="tag">Process Modelling</span>
+                                <span class="tag">SLSQP</span>
+                                <span class="tag">Experimental Data</span>
+                                <span class="tag">Optimisation</span>
+
+                            </div>
+
+
+                            <a
+                                class="project-link"
+                                href="files/Henrik_Hedlin_Portfolio.pdf#page=2"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                VIEW PROJECT ↗
+                            </a>
 
                         </div>
 
+                    </article>
+
+
+
+                    <!-- ==================================================
+                        PROJECT 02
+                        ================================================== -->
+
+                    <article class="project-card">
 
                         <div class="project-content">
 
                             <span class="meta">
-                                MASTER'S THESIS
+                                PRJ-002 / PYTHON TOOL / DECISION SUPPORT
                             </span>
 
-
                             <h3>
-                                CMP Process Modelling
+                                Run-to-Run CMP Recipe Optimisation
                             </h3>
 
-
-                            <p class="text-block">
-                                Investigated and modelled material removal
-                                behaviour in a CMP process using experimental
-                                process data. The work combined independent
-                                cleanroom experiments, thickness measurements,
-                                Python-based analysis and model validation.
+                            <p class="project-summary">
+                                Turned the CMP modelling framework into a practical
+                                Python workflow that takes calibration data and wafer
+                                measurements and recommends pressure-zone settings
+                                and polishing time for the next run.
                             </p>
+
+
+                            <div class="project-workflow">
+
+                                <span>LOAD DATA</span>
+                                <span>→</span>
+
+                                <span>SELECT MEASUREMENTS</span>
+                                <span>→</span>
+
+                                <span>ALIGN MODEL</span>
+                                <span>→</span>
+
+                                <span>OPTIMISE</span>
+                                <span>→</span>
+
+                                <span>RECOMMEND</span>
+
+                            </div>
+
+
+                            <div class="project-details">
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        INPUT
+                                    </span>
+
+                                    <p>
+                                        Calibration matrices, pre- and post-CMP
+                                        thickness measurements, previous process
+                                        settings, target thickness and process bounds.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        METHOD
+                                    </span>
+
+                                    <p>
+                                        Selects high-quality measurements, computes
+                                        radial removal, aligns measurement and model
+                                        grids and solves a constrained SLSQP
+                                        optimisation problem.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        OUTPUT
+                                    </span>
+
+                                    <p>
+                                        Recommended CP, RP, OP and EP pressures,
+                                        polishing time, estimated mean thickness,
+                                        target deviation and optimisation status.
+                                    </p>
+
+                                </div>
+
+                            </div>
 
 
                             <div class="tag-list">
@@ -427,18 +560,20 @@
                                 <span class="tag">Python</span>
                                 <span class="tag">NumPy</span>
                                 <span class="tag">SciPy</span>
-                                <span class="tag">CMP</span>
-                                <span class="tag">Process modelling</span>
-                                <span class="tag">Experimental data</span>
+                                <span class="tag">SLSQP</span>
+                                <span class="tag">Optimisation</span>
+                                <span class="tag">Decision Support</span>
 
                             </div>
 
 
                             <a
                                 class="project-link"
-                                href="#"
+                                href="files/Henrik_Hedlin_Portfolio.pdf#page=3"
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
-                                VIEW PROJECT →
+                                VIEW PROJECT ↗
                             </a>
 
                         </div>
@@ -447,139 +582,92 @@
 
 
 
-                    <!-- ======================================
-                         PROJECT 2
-                         ====================================== -->
+                    <!-- ==================================================
+                        PROJECT 03
+                        ================================================== -->
 
                     <article class="project-card">
-
-                        <div class="project-visual">
-
-                            <!--
-                            Later:
-                            <img
-                                src="images/cfd.png"
-                                alt="CFD result from gas atomisation model"
-                            >
-                            -->
-
-                            <span class="project-placeholder">
-                                GAS ATOMISATION / CFD
-                            </span>
-
-                        </div>
-
 
                         <div class="project-content">
 
                             <span class="meta">
-                                BACHELOR'S THESIS
+                                PRJ-003 / BACHELOR'S THESIS / CFD
                             </span>
-
 
                             <h3>
                                 Gas Atomisation CFD
                             </h3>
 
-
-                            <p class="text-block">
-                                Modelled the flow characteristics of a gas
-                                atomisation unit using 2D CFD. The project
-                                focused on understanding flow structures,
-                                vortex formation and how changes to the
-                                geometry could improve the process.
+                            <p class="project-summary">
+                                Investigated the flow characteristics of a gas
+                                atomisation unit using 2D CFD, with particular
+                                attention to vortex formation and its relationship
+                                with undesirable particle formation.
                             </p>
+
+
+                            <div class="project-details">
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        PROBLEM
+                                    </span>
+
+                                    <p>
+                                        Understand how the internal gas-flow behaviour
+                                        of the atomisation unit influenced the
+                                        resulting process.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        WHAT I DID
+                                    </span>
+
+                                    <p>
+                                        Built and analysed two-dimensional CFD models
+                                        of the atomisation geometry using ANSYS Fluent.
+                                    </p>
+
+                                </div>
+
+
+                                <div class="project-detail">
+
+                                    <span class="meta">
+                                        RESULT
+                                    </span>
+
+                                    <p>
+                                        Identified relevant flow structures and
+                                        investigated geometry changes intended to
+                                        reduce undesirable vortex behaviour.
+                                    </p>
+
+                                </div>
+
+                            </div>
 
 
                             <div class="tag-list">
 
                                 <span class="tag">ANSYS Fluent</span>
                                 <span class="tag">CFD</span>
-                                <span class="tag">Flow modelling</span>
-                                <span class="tag">Materials processing</span>
+                                <span class="tag">Fluid Flow</span>
+                                <span class="tag">Materials Processing</span>
+                                <span class="tag">Modelling</span>
 
                             </div>
-
-
-                            <a
-                                class="project-link"
-                                href="#"
-                            >
-                                VIEW PROJECT →
-                            </a>
 
                         </div>
 
                     </article>
 
-
-
-                    <!-- ======================================
-                         PROJECT 3
-                         ====================================== -->
-
-                    <article class="project-card">
-
-                        <div class="project-visual">
-
-                            <!--
-                            Later:
-                            <img
-                                src="images/point-cloud.png"
-                                alt="3D point cloud clustering result"
-                            >
-                            -->
-
-                            <span class="project-placeholder">
-                                POINT CLOUD / CLUSTERING
-                            </span>
-
-                        </div>
-
-
-                        <div class="project-content">
-
-                            <span class="meta">
-                                DATA ANALYSIS
-                            </span>
-
-
-                            <h3>
-                                Point Cloud Analysis
-                            </h3>
-
-
-                            <p class="text-block">
-                                Processed 3D point-cloud data in Python,
-                                estimated and removed the ground plane and
-                                used DBSCAN clustering to identify structures
-                                in the remaining data.
-                            </p>
-
-
-                            <div class="tag-list">
-
-                                <span class="tag">Python</span>
-                                <span class="tag">NumPy</span>
-                                <span class="tag">Scikit-learn</span>
-                                <span class="tag">DBSCAN</span>
-                                <span class="tag">Point clouds</span>
-
-                            </div>
-
-
-                            <a
-                                class="project-link"
-                                href="https://github.com/Henke-N"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                GITHUB →
-                            </a>
-
-                        </div>
-
-                    </article>
 
                 </div>
 
@@ -711,7 +799,7 @@
                             <p class="text-block">
                                 Master's specialisation in nanotechnology with a
                                 background spanning materials science, engineering
-                                physics, semiconductor processing, modelling and
+                                physics, chemestry, semiconductor processing, modelling and
                                 experimental methods.
                             </p>
 
@@ -777,45 +865,24 @@
                             <div class="course-heading">
 
                                 <h4>
-                                    Course Name
+                                    Industrial AI and eMaintenance - Part 1: Theories & Concepts
                                 </h4>
 
                                 <span class="meta">
-                                    7.5 ECTS · UNIVERSITY · 2026
+                                    7.5 ECTS · Luleå Tekniska Universitet · 2026
                                 </span>
 
                             </div>
 
 
                             <p class="text-block">
-                                One or two sentences explaining what the course
-                                actually covered and why it is worth showing here.
+                                Course covered and included data formating, analasys and ML training (LSTM, ResNet-18, DBSCAN)
                             </p>
 
                         </article>
 
 
-                        <article class="course-entry">
-
-                            <div class="course-heading">
-
-                                <h4>
-                                    Another Course
-                                </h4>
-
-                                <span class="meta">
-                                    7.5 ECTS · UNIVERSITY · 2025
-                                </span>
-
-                            </div>
-
-
-                            <p class="text-block">
-                                Short context about the technical content, project
-                                work or methods used.
-                            </p>
-
-                        </article>
+                       
 
                     </div>
 
@@ -869,7 +936,7 @@
 
                     <a
                         class="action-link primary-action"
-                        href="files/Henrik-Hedlin-CV.pdf"
+                        href="Files/Henrik_Hedlin_CV.pdf"
                         target="_blank"
                     >
                         [ OPEN FULL CV ↗ ]
@@ -917,7 +984,7 @@
                 <div class="contact-links">
 
                     <!-- Replace with your preferred public email -->
-                    <a href="mailto:YOUR_EMAIL">
+                    <a href="mailto:henke_0106@hotmail.com">
                         [ EMAIL ]
                     </a>
 
