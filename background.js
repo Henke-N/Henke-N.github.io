@@ -23,6 +23,21 @@ const visibleBackgroundStars = [];
 const shootingStars = [];
 const renderedConstellations = [];
 
+const SECTION_CONSTELLATIONS = {
+    home: "UMi",
+    projects: "Ori",
+    cv: "Mic",
+    contact: "Aql"
+};
+
+let activeConstellationId = SECTION_CONSTELLATIONS.home;
+let motionEnabled = !window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+).matches;
+let skyDensityMode = "FULL";
+let skyDensityStep = 1;
+let lastSkyHoverKey = null;
+
 // Each star is:
 // [right ascension in hours, declination in degrees, magnitude]
 //
@@ -1029,7 +1044,13 @@ function buildConstellation(
                         rotatedY,
 
                     magnitude:
-                        config.stars[index][2]
+                        config.stars[index][2],
+
+                    ra:
+                        config.stars[index][0],
+
+                    dec:
+                        config.stars[index][1]
                 };
             }
         );
@@ -1057,7 +1078,9 @@ function buildConstellation(
 
         polarisIndex:
             config.polarisIndex ??
-            null
+            null,
+
+        emphasis: 0
     };
 }
 
@@ -1128,6 +1151,21 @@ function drawConstellation(
         constellation.y -
         cameraY;
 
+    const targetEmphasis =
+        constellation.id === activeConstellationId
+            ? 1
+            : 0;
+
+    constellation.emphasis +=
+        (targetEmphasis - constellation.emphasis) * 0.04;
+
+    const lineAlpha =
+        CONSTELLATION_LINE_ALPHA *
+        (1 + constellation.emphasis * 0.36);
+
+    const starBoost =
+        1 + constellation.emphasis * 0.12;
+
     const margin =
         constellation.size *
         1.7;
@@ -1192,7 +1230,7 @@ function drawConstellation(
                 125,
                 155,
                 195,
-                ${CONSTELLATION_LINE_ALPHA}
+                ${lineAlpha}
             )`;
 
         ctx.lineWidth =
@@ -1249,11 +1287,15 @@ function drawConstellation(
             );
 
         const opacity =
-            magnitudeToOpacity(
-                star.magnitude
-            ) *
-            pulse *
-            CONSTELLATION_STAR_ALPHA;
+            Math.min(
+                1,
+                magnitudeToOpacity(
+                    star.magnitude
+                ) *
+                pulse *
+                CONSTELLATION_STAR_ALPHA *
+                starBoost
+            );
 
         ctx.beginPath();
 
@@ -1596,6 +1638,15 @@ class ShootingStar {
 // ============================================================
 
 function createMeteorEvent() {
+    if (!motionEnabled) {
+        setTimeout(
+            createMeteorEvent,
+            8000
+        );
+
+        return;
+    }
+
     const isShower =
         Math.random() <
         0.08;
@@ -1687,53 +1738,41 @@ function animate(time) {
     );
 
 
-    // Only visible background stars
+    const drawTime =
+        motionEnabled
+            ? time
+            : 0;
+
+
+    // Background stars
     for (
-        const star of
-        visibleBackgroundStars
+        let i = 0;
+        i < visibleBackgroundStars.length;
+        i += skyDensityStep
     ) {
-        star.draw(
-            time
-        );
+        visibleBackgroundStars[i].draw(drawTime);
     }
 
 
     // Constellations
-    for (
-        const constellation of
-        renderedConstellations
-    ) {
-        drawConstellation(
-            constellation,
-            time
-        );
+    for (const constellation of renderedConstellations) {
+        drawConstellation(constellation, drawTime);
     }
 
 
     // Shooting stars
-    for (
-        let i =
-            shootingStars.length -
-            1;
-
-        i >= 0;
-
-        i--
-    ) {
-        shootingStars[i]
-            .update();
-
-        shootingStars[i]
-            .draw();
-
-        if (
-            shootingStars[i]
-                .isDead()
+    if (motionEnabled) {
+        for (
+            let i = shootingStars.length - 1;
+            i >= 0;
+            i--
         ) {
-            shootingStars.splice(
-                i,
-                1
-            );
+            shootingStars[i].update();
+            shootingStars[i].draw();
+
+            if (shootingStars[i].isDead()) {
+                shootingStars.splice(i, 1);
+            }
         }
     }
 
@@ -1744,202 +1783,210 @@ function animate(time) {
 
     
 }
-//----------------------
-    
-const sectionLinks = Array.from(
-    document.querySelectorAll('.section-nav-links a[href^="#"]')
+
+
+// ============================================================
+// SKY INTERACTION / PUBLIC CONTROLS
+// ============================================================
+
+function getSkyTargetAt(clientX, clientY) {
+    let nearest = null;
+    let nearestDistanceSquared = Infinity;
+
+    for (const constellation of renderedConstellations) {
+        const centreX = constellation.x - cameraX;
+        const centreY = constellation.y - cameraY;
+        const margin = constellation.size * 1.7;
+
+        if (
+            centreX < -margin ||
+            centreX > width + margin ||
+            centreY < -margin ||
+            centreY > height + margin
+        ) {
+            continue;
+        }
+
+        for (let i = 0; i < constellation.stars.length; i++) {
+            const star = constellation.stars[i];
+            const isPolaris = constellation.polarisIndex === i;
+
+            /*
+                Labels are an easter egg, not a continuous UI layer.
+                Only Polaris and unusually bright catalogue stars respond.
+            */
+            if (!isPolaris && star.magnitude > 2.25) {
+                continue;
+            }
+
+            const screenX = star.x - cameraX;
+            const screenY = star.y - cameraY;
+            const dx = clientX - screenX;
+            const dy = clientY - screenY;
+            const distanceSquared = dx * dx + dy * dy;
+            const hitRadius = isPolaris ? 20 : 11;
+
+            if (
+                distanceSquared <= hitRadius * hitRadius &&
+                distanceSquared < nearestDistanceSquared
+            ) {
+                nearestDistanceSquared = distanceSquared;
+                nearest = {
+                    id: constellation.id,
+                    name: constellation.name,
+                    ra: star.ra,
+                    dec: star.dec,
+                    magnitude: star.magnitude,
+                    isPolaris
+                };
+            }
+        }
+    }
+
+    return nearest;
+}
+
+
+function clearSkyHover() {
+    if (lastSkyHoverKey === null) {
+        return;
+    }
+
+    lastSkyHoverKey = null;
+    window.dispatchEvent(
+        new CustomEvent("portfolio:skyhover", {
+            detail: null
+        })
+    );
+}
+
+
+window.addEventListener(
+    "pointermove",
+    (event) => {
+        if (
+            event.target.closest?.(
+                ".site-header, .project-card, .cv-entry, " +
+                ".course-entry, .contact-links, .site-footer, " +
+                "a, button, input, textarea"
+            )
+        ) {
+            clearSkyHover();
+            return;
+        }
+
+        const target = getSkyTargetAt(event.clientX, event.clientY);
+        const key = target
+            ? `${target.id}:${target.ra}:${target.dec}`
+            : null;
+
+        if (key === null) {
+            clearSkyHover();
+            return;
+        }
+
+        lastSkyHoverKey = key;
+        window.dispatchEvent(
+            new CustomEvent("portfolio:skyhover", {
+                detail: {
+                    ...target,
+                    clientX: event.clientX,
+                    clientY: event.clientY
+                }
+            })
+        );
+    },
+    { passive: true }
 );
 
-const sections = sectionLinks.map((link) =>
-    document.querySelector(link.getAttribute("href"))
-);
 
-const pointer = document.querySelector(".nav-pointer");
-const markerContainer = document.querySelector(".nav-section-markers");
-const minorMarkerContainer = document.querySelector(".nav-minor-markers");
-
-let sectionTriggerPositions = [];
+window.addEventListener("pointerleave", clearSkyHover);
 
 
-/* ============================================================
-   BUILD / RECALCULATE NAVIGATION SCALE
-   ============================================================ */
-
-function calculateNavigationScale() {
-
+window.addEventListener("click", (event) => {
     if (
-        !pointer ||
-        !markerContainer ||
-        !minorMarkerContainer ||
-        sections.length === 0
+        event.target.closest?.(
+            ".site-header, .project-card, .cv-entry, " +
+            ".course-entry, .contact-links, .site-footer, " +
+            "a, button, input, textarea, select, [role='dialog']"
+        )
     ) {
         return;
     }
 
-    const maxScroll =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
+    const target = getSkyTargetAt(event.clientX, event.clientY);
 
-    const observationOffset =
-        window.innerHeight * 0.42;
+    if (target?.isPolaris) {
+        window.dispatchEvent(
+            new CustomEvent("portfolio:polaris")
+        );
+    }
+});
 
 
-    /* --------------------------------------------------------
-       Calculate section positions
-       -------------------------------------------------------- */
+window.addEventListener("portfolio:sectionchange", (event) => {
+    activeConstellationId =
+        SECTION_CONSTELLATIONS[event.detail?.id] ||
+        SECTION_CONSTELLATIONS.home;
+});
 
-    sectionTriggerPositions = sections.map((section) => {
 
-        const targetScroll =
-            section.offsetTop -
-            observationOffset;
+window.portfolioSky = {
+    toggleMotion() {
+        motionEnabled = !motionEnabled;
 
-        return Math.max(
-            0,
-            Math.min(maxScroll, targetScroll)
+        if (!motionEnabled) {
+            shootingStars.length = 0;
+        }
+
+        return motionEnabled;
+    },
+
+    toggleDensity() {
+        if (skyDensityMode === "FULL") {
+            skyDensityMode = "REDUCED";
+            skyDensityStep = 2;
+        } else {
+            skyDensityMode = "FULL";
+            skyDensityStep = 1;
+        }
+
+        return skyDensityMode;
+    },
+
+    find(name) {
+        const query = String(name || "").trim().toLowerCase();
+        const constellation = constellationCatalogue.find(
+            (item) =>
+                item.id.toLowerCase() === query ||
+                item.name.toLowerCase() === query
         );
 
-    });
-
-
-    /* --------------------------------------------------------
-       Minor ticks
-       One tick every 5%
-       -------------------------------------------------------- */
-
-    minorMarkerContainer.innerHTML = "";
-
-    for (let i = 0; i <= 20; i++) {
-
-        const marker =
-            document.createElement("span");
-
-        marker.className =
-            "nav-minor-marker";
-
-        marker.style.left =
-            `${i * 5}%`;
-
-        minorMarkerContainer.appendChild(marker);
-
-    }
-
-
-    /* --------------------------------------------------------
-       Major section ticks
-       -------------------------------------------------------- */
-
-    markerContainer.innerHTML = "";
-
-    sectionTriggerPositions.forEach((position) => {
-
-        const marker =
-            document.createElement("span");
-
-        marker.className =
-            "nav-section-marker";
-
-        const percentage =
-            maxScroll > 0
-                ? position / maxScroll
-                : 0;
-
-        marker.style.left =
-            `${percentage * 100}%`;
-
-        markerContainer.appendChild(marker);
-
-    });
-
-
-    updateNavigation();
-}
-
-
-/* ============================================================
-   UPDATE POINTER WHILE SCROLLING
-   ============================================================ */
-
-function updateNavigation() {
-
-    if (!pointer) {
-        return;
-    }
-
-    const maxScroll =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
-
-    const scrollPosition =
-        Math.max(
-            0,
-            Math.min(maxScroll, window.scrollY)
-        );
-
-    const progress =
-        maxScroll > 0
-            ? scrollPosition / maxScroll
-            : 0;
-
-
-    /* Move pointer */
-
-    pointer.style.left =
-        `${progress * 100}%`;
-
-
-    /* Work out which section is active */
-
-    let currentIndex = 0;
-
-    sectionTriggerPositions.forEach(
-        (position, index) => {
-
-            if (scrollPosition >= position) {
-                currentIndex = index;
-            }
-
+        if (!constellation) {
+            console.info(`No constellation found for "${name}".`);
+            return null;
         }
-    );
+
+        console.table({
+            id: constellation.id,
+            name: constellation.name,
+            stars: constellation.stars.length,
+            centreX: constellation.x,
+            centreY: constellation.y
+        });
+
+        return constellation;
+    }
+};
 
 
-    sectionLinks.forEach(
-        (link, index) => {
-
-            link.classList.toggle(
-                "active",
-                index === currentIndex
-            );
-
-        }
-    );
-}
-
-
-/* ============================================================
-   EVENTS
-   ============================================================ */
-
-window.addEventListener(
-    "scroll",
-    updateNavigation,
-    { passive: true }
-);
-
-window.addEventListener(
-    "resize",
-    calculateNavigationScale
-);
-
-window.addEventListener(
-    "load",
-    calculateNavigationScale
+console.info("Polaris is where it should be.");
+console.info(
+    `Sky catalogue loaded: ${constellationCatalogue.length} constellations / ` +
+    `${BACKGROUND_STAR_COUNT} background stars.`
 );
 
 
-/* Initial calculation */
-
-calculateNavigationScale();
 // ============================================================
 // START
 // ============================================================

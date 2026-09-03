@@ -9,7 +9,13 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="description"
+        content="Henrik Hedlin's engineering portfolio, featuring materials science, nanotechnology, process modelling and technical analysis."
+    >
+
     <title>Henrik Hedlin</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -19,7 +25,7 @@
                                 >
     <link
         rel="stylesheet"
-        href="style.css"
+        href="style.css?v=20260903"
     >
 </head>
 
@@ -61,9 +67,17 @@
 
                     <div class="nav-pointer"></div>
 
+                    <span class="nav-scale-start">000°</span>
+                    <span class="nav-scale-end">360°</span>
+
                 </div>
 
             </div>
+
+
+            <span class="nav-readout" aria-hidden="true">
+                000°
+            </span>
 
 
             <span class="nav-separator">
@@ -134,7 +148,7 @@
 
                         <img
                             src="Images/Henrik_Hedlin_application_photo_4x5.jpg"
-                            alt="DBSCAN clustered point cloud"
+                            alt="Portrait of Henrik Hedlin"
                             style="width: 300px; height: auto;"
                         >
 
@@ -344,10 +358,6 @@
 
                 <header class="section-header">
 
-                    <span class="plate-label">
-                        PLATE 02 / SELECTED WORK
-                    </span>
-
                     <h2 class="section-title">
                         PROJECTS
                     </h2>
@@ -381,6 +391,41 @@
                                 multi-zone CMP process, with the aim of supporting
                                 more systematic recipe development.
                             </p>
+
+
+                            <p class="project-readout">
+                                17 RADIAL POINTS · 4 PRESSURE ZONES · SLSQP
+                            </p>
+
+
+                            <figure
+                                class="project-figure project-figure-data"
+                                data-observe
+                                data-observation-meta="PRJ-001 / FIG-02 / MODEL VALIDATION"
+                            >
+
+                                <div class="project-visual">
+
+                                    <img
+                                        src="Images/cmp-model-validation.png"
+                                        alt="Measured and estimated CMP radial removal profiles across the wafer radius"
+                                    >
+
+                                </div>
+
+                                <figcaption>
+
+                                    <span class="figure-number">
+                                        PRJ-001 / FIG-02
+                                    </span>
+
+                                    <span>
+                                        MODEL VALIDATION · MEASURED VS ESTIMATED RADIAL REMOVAL
+                                    </span>
+
+                                </figcaption>
+
+                            </figure>
 
 
                             <div class="project-details">
@@ -449,7 +494,7 @@
 
                             <a
                                 class="project-link"
-                                href="files/Henrik_Hedlin_Portfolio.pdf#page=2"
+                                href="Files/Henrik_Hedlin_Portfolio.pdf#page=2"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -483,6 +528,11 @@
                                 Python workflow that takes calibration data and wafer
                                 measurements and recommends pressure-zone settings
                                 and polishing time for the next run.
+                            </p>
+
+
+                            <p class="project-readout">
+                                4 PRESSURE ZONES · PRESSURE + TIME · SLSQP
                             </p>
 
 
@@ -569,7 +619,7 @@
 
                             <a
                                 class="project-link"
-                                href="files/Henrik_Hedlin_Portfolio.pdf#page=3"
+                                href="Files/Henrik_Hedlin_Portfolio.pdf#page=3"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -603,6 +653,11 @@
                                 atomisation unit using 2D CFD, with particular
                                 attention to vortex formation and its relationship
                                 with undesirable particle formation.
+                            </p>
+
+
+                            <p class="project-readout">
+                                2D CFD · ANSYS FLUENT · GAS ATOMISATION
                             </p>
 
 
@@ -689,10 +744,6 @@
             <div class="section-inner">
 
                 <header class="section-header">
-
-                    <span class="meta">
-                        EXPERIENCE / EDUCATION
-                    </span>
 
                     <h2 class="section-title">
                         CV
@@ -799,7 +850,7 @@
                             <p class="text-block">
                                 Master's specialisation in nanotechnology with a
                                 background spanning materials science, engineering
-                                physics, chemestry, semiconductor processing, modelling and
+                                physics, chemistry, semiconductor processing, modelling and
                                 experimental methods.
                             </p>
 
@@ -876,7 +927,7 @@
 
 
                             <p class="text-block">
-                                Course covered and included data formating, analasys and ML training (LSTM, ResNet-18, DBSCAN)
+                                Course covered data formatting, analysis and ML training (LSTM, ResNet-18, DBSCAN).
                             </p>
 
                         </article>
@@ -938,6 +989,7 @@
                         class="action-link primary-action"
                         href="Files/Henrik_Hedlin_CV.pdf"
                         target="_blank"
+                        rel="noopener noreferrer"
                     >
                         [ OPEN FULL CV ↗ ]
                     </a>
@@ -963,10 +1015,6 @@
 
                 <header class="section-header">
 
-                    <span class="meta">
-                        GET IN TOUCH
-                    </span>
-
                     <h2 class="section-title">
                         CONTACT
                     </h2>
@@ -987,6 +1035,15 @@
                     <a href="mailto:henke_0106@hotmail.com">
                         [ EMAIL ]
                     </a>
+
+
+                    <button
+                        class="terminal-action"
+                        type="button"
+                        data-copy-email
+                    >
+                        [ COPY EMAIL ]
+                    </button>
 
 
                     <a
@@ -1022,11 +1079,79 @@
 
     <footer class="site-footer">
 
-        <span class="meta">
-            HENRIK HEDLIN
-        </span>
+        <div class="footer-document">
+
+            <span>
+                <b>DOC</b> HENRIK HEDLIN / PORTFOLIO
+            </span>
+
+            <span>
+                <b>FIELD</b> MATERIALS · NANOTECHNOLOGY · MODELLING
+            </span>
+
+        </div>
+
+
+        <div class="footer-actions">
+
+            <button
+                class="terminal-action"
+                type="button"
+                data-open-command
+            >
+                [ / COMMAND ]
+            </button>
+
+            <a href="#home">
+                [ TOP ]
+            </a>
+
+        </div>
 
     </footer>
+
+
+    <div
+        class="command-palette"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site command palette"
+        hidden
+    >
+
+        <div class="command-panel">
+
+            <div class="command-head">
+
+                <span class="command-prompt">&gt;</span>
+
+                <input
+                    class="command-input"
+                    type="text"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-label="Filter commands"
+                    placeholder="TYPE A DESTINATION OR COMMAND"
+                >
+
+                <span class="command-key">ESC</span>
+
+            </div>
+
+
+            <div class="command-list" role="listbox"></div>
+
+
+            <div class="command-help">
+                ↑ ↓ SELECT · ENTER RUN · / OPEN
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="sky-label" hidden></div>
 
 
 
@@ -1036,214 +1161,6 @@
 
     <script src="background.js"></script>
     <script src="navigation.js"></script>
-
-    <!-- Highlight current section in navigation -->
-    <script>
-
-        const sectionLinks =
-            Array.from(
-                document.querySelectorAll(
-                    '.section-nav-links a[href^="#"]'
-                )
-            );
-
-
-        const sections =
-            sectionLinks.map(
-                link =>
-                    document.querySelector(
-                        link.getAttribute("href")
-                    )
-            );
-
-
-        const sectionNav =
-            document.querySelector(
-                ".section-nav"
-            );
-
-
-        const pointer =
-            document.querySelector(
-                ".nav-pointer"
-            );
-
-
-        function getLinkCentre(link) {
-
-            const linkRect =
-                link.getBoundingClientRect();
-
-            const navRect =
-                sectionNav.getBoundingClientRect();
-
-
-            return (
-                linkRect.left -
-                navRect.left +
-                linkRect.width / 2
-            );
-        }
-
-
-        function updateNavigation() {
-
-            /*
-                Use a point slightly above the vertical
-                centre of the screen as our "observation line".
-            */
-
-            const observationPosition =
-                window.scrollY +
-                window.innerHeight * 0.42;
-
-
-            const sectionPositions =
-                sections.map(
-                    section =>
-                        section.offsetTop
-                );
-
-
-            let currentIndex = 0;
-
-
-            /*
-                Find which two sections we are currently between.
-            */
-
-            for (
-                let i = 0;
-                i < sectionPositions.length;
-                i++
-            ) {
-
-                if (
-                    observationPosition >=
-                    sectionPositions[i]
-                ) {
-                    currentIndex = i;
-                }
-            }
-
-
-            const nextIndex =
-                Math.min(
-                    currentIndex + 1,
-                    sections.length - 1
-                );
-
-
-            const currentPosition =
-                sectionPositions[
-                    currentIndex
-                ];
-
-
-            const nextPosition =
-                sectionPositions[
-                    nextIndex
-                ];
-
-
-            let progress = 0;
-
-
-            if (
-                nextPosition >
-                currentPosition
-            ) {
-
-                progress =
-                    (
-                        observationPosition -
-                        currentPosition
-                    ) /
-                    (
-                        nextPosition -
-                        currentPosition
-                    );
-
-
-                progress =
-                    Math.max(
-                        0,
-                        Math.min(
-                            1,
-                            progress
-                        )
-                    );
-            }
-
-
-            const startX =
-                getLinkCentre(
-                    sectionLinks[
-                        currentIndex
-                    ]
-                );
-
-
-            const endX =
-                getLinkCentre(
-                    sectionLinks[
-                        nextIndex
-                    ]
-                );
-
-
-            const pointerX =
-                startX +
-                (
-                    endX -
-                    startX
-                ) *
-                progress;
-
-
-            pointer.style.left =
-                `${pointerX}px`;
-
-
-            /*
-                Active text state
-            */
-
-            sectionLinks.forEach(
-                (
-                    link,
-                    index
-                ) => {
-
-                    link.classList.toggle(
-                        "active",
-                        index ===
-                        currentIndex
-                    );
-
-                }
-            );
-        }
-
-
-        window.addEventListener(
-            "scroll",
-            updateNavigation,
-            {
-                passive: true
-            }
-        );
-
-
-        window.addEventListener(
-            "resize",
-            updateNavigation
-        );
-
-
-        updateNavigation();
-
-    </script>
 
 </body>
 
